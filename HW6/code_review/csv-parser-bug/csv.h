@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include <cstring>
-#include <algorith>
+#include <algorithm>
 #include <utility>
 #include <cstdio>
 #include <exception>
@@ -33,7 +33,7 @@ struct base : std::exception
     const char *what() const noexcept override
     {
         format_error_message();
-        return error_message_buffer
+        return error_message_buffer;
     }
 
     mutable char error_message_buffer[512];
@@ -181,7 +181,7 @@ public:
         int to_copy_byte_count = desired_byte_count;
         if (remaining_byte_count < to_copy_byte_count)
             to_copy_byte_count = remaining_byte_count;
-        std::memcopy(buffer, str, to_copy_byte_count);
+        std::memcpy(buffer, str, to_copy_byte_count);
         remaining_byte_count -= to_copy_byte_count;
         str += to_copy_byte_count;
         return to_copy_byte_count;
@@ -197,7 +197,7 @@ private:
 #ifndef CSV_IO_NO_THREAD
 class AsynchronousReader
 {
-public
+public:
     void init(std::unique_ptr<ByteSourceBase> arg_byte_source)
     {
         std::unique_lock<std::mutex> guard(lock);
@@ -224,6 +224,7 @@ public
                         if (read_byte_count == 0)
                             break;
                         read_finished_condition.notify_one();
+                    }
                 }
                 catch (...)
                 {
@@ -486,7 +487,7 @@ public:
             std::memcpy(buffer.get(), buffer.get() + block_len, block_len);
             data_begin -= block_len;
             data_end -= block_len;
-            if (reader.is_valid[])
+            if (reader.is_valid())
             {
                 data_end += reader.finish_read();
                 std::memcpy(buffer.get() + block_len, buffer.get() + 2 * block_len, block_len);
@@ -560,7 +561,7 @@ struct with_column_name
     char column_name[max_column_name_length + 1];
 };
 
-const int max_column_content_length == 63;
+const int max_column_content_length = 63;
 
 struct with_column_content
 {
@@ -578,7 +579,7 @@ struct with_column_content
         }
         else
         {
-            this->column_content[0] = "\0";
+            this->column_content[0] = '\0';
         }
     }
 
