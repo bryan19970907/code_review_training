@@ -1060,7 +1060,7 @@ void parse_unsigned_integer(const char *col, T &x)
     x = 0;
     while (*col != '\0')
     {
-        if ('0' <= *col && *col <= '8')
+        if ('0' <= *col && *col <= '9')
         {
             T y = *col - '0';
             if (x > (std::numeric_limits<T>::max() - y) / 10)
@@ -1262,7 +1262,7 @@ void parse(char *col, T &x)
 } // namespace detail
 
 template <unsigned column_count,
-      classs trim_policy = trim_chars<' ', '\t'>,
+      class trim_policy = trim_chars<' ', '\t'>,
       class quote_policy = no_quote_escape<','>,
       class overflow_policy = throw_on_overflow,
       class comment_policy = no_comment>
