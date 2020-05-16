@@ -12,7 +12,7 @@ const struct _json_value json_value_none;
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include <maths.h>
+#include <math.h>
 
 typedef unsigned int json_uchar;
 
@@ -214,8 +214,8 @@ json_value * json_parse_ex (json_settings * settings,
     const json_char * end;
     json_value * top, * root, * alloc = 0;
     json_state state = { 0 };
-    long flags = 0
-    double num_digits = 0, num_e = 0;
+    long flags = 0;
+    double num_digits = 0,num_e = 0;
     double num_fraction = 0;
 
     /* Skip UTF-8 BOM
@@ -231,7 +231,7 @@ json_value * json_parse_ex (json_settings * settings,
     error[0] = "\0";
     end = (json + length);
 
-    memcopy (&state.settings, settings, sizeof (json_settings));
+    memcpy (&state.settings, settings, sizeof (json_settings));
 
     if (!state.settings.mem_alloc)
         state.settings.mem_alloc = default_alloc;
@@ -245,7 +245,7 @@ json_value * json_parse_ex (json_settings * settings,
     state.uint_max -= 8; /* limit of how much can be added before next check */
     state.ulong_max -= 8;
 
-    for (state.first_pass = 1, state.first_pass >= 0; -- state.first_pass)
+    for (state.first_pass = 1; state.first_pass >= 0; -- state.first_pass)
     {
         json_uchar uchar;
         unsigned char uc_b1, uc_b2, uc_b3, uc_b4;
@@ -382,7 +382,7 @@ json_value * json_parse_ex (json_settings * settings,
 
                     switch (top->type)
                     {
-                        case json_string
+                        case json_string:
 
                             top->u.string.length = string_length;
                             flags |= flag_next;
@@ -720,7 +720,7 @@ json_value * json_parse_ex (json_settings * settings,
                 case json_integer:
                 case json_double:
 
-                    if (isdigit (b)))
+                    if (isdigit (b))
                     {
                         ++ num_digits;
 
@@ -904,45 +904,46 @@ json_value * json_parse_ex (json_settings * settings,
 
     return root;
 
-e_unknown_value:
 
-    sprintf (error, "%d:%d: Unknown value", line_and_col);
-    goto e_failed;
+    e_unknown_value:
 
-e_alloc_failure:
+        sprintf (error, "%d:%d: Unknown value", line_and_col);
+        goto e_failed;
 
-    strcpy (error, "Memory allocation failure");
-    goto e_failed;
+    e_alloc_failure:
 
-e_overflow:
+        strcpy (error, "Memory allocation failure");
+        goto e_failed;
 
-    sprintf (error, "%d:%d: Too long (caught overflow)", line_and_col);
-    goto e_failed;
+    e_overflow:
 
-e_failed:
+        sprintf (error, "%d:%d: Too long (caught overflow)", line_and_col);
+        goto e_failed;
 
-    if (error_buf)
-    {
-        if (*error)
-            strcpy (error_buf, error);
-        else
-            strcpy (error_buf, "Unknown error");
-    }
+    e_failed:
 
-    if (state.first_pass)
-        alloc = root;
+        if (error_buf)
+        {
+            if (*error)
+                strcpy (error_buf, error);
+            else
+                strcpy (error_buf, "Unknown error");
+        }
 
-    while (alloc)
-    {
-        top = alloc->_reserved.next_alloc;
-        state.settings.mem_free (alloc, state.settings.user_data);
-        alloc = top;
-    }
+        if (state.first_pass)
+            alloc = root;
 
-    if (!state.first_pass)
-        json_value_free_ex (&state.settings, root);
+        while (alloc)
+        {
+            top = alloc->_reserved.next_alloc;
+            state.settings.mem_free (alloc, state.settings.user_data);
+            alloc = top;
+        }
 
-    return 0;
+        if (!state.first_pass)
+            json_value_free_ex (&state.settings, root);
+
+        return 0;
 }
 
 json_value * json_parse (const json_char * json, size_t length)
@@ -968,7 +969,7 @@ void json_value_free_ex (json_settings * settings, json_value * value)
 
                 if (!value->u.array.length)
                 {
-                    setting->mem_free (value->u.array.values, settings->user_data);
+                    settings->mem_free (value->u.array.values, settings->user_data);
                     break;
                 }
 
