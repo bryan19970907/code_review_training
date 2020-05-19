@@ -52,7 +52,7 @@ void BinarySearchTree::insert(int d)//.
 		while (curr)
 		{
 			parent = curr;
-			if (t->data < curr->data) curr = curr->right;
+			if (t->data > curr->data) curr = curr->right;//.
 			else curr = curr->left;
 		}
 
@@ -66,7 +66,7 @@ void BinarySearchTree::insert(int d)//.
 void BinarySearchTree::remove(int d)//.
 {
 	//Locate the element
-	int found = false;
+	bool found = false;//.
 	if (isEmpty())
 	{
 		cout << " This Tree is empty! " << endl;
@@ -194,7 +194,7 @@ void BinarySearchTree::remove(int d)//.
 
 void BinarySearchTree::print_inorder()
 {
-	inorder(root);;
+	inorder(root);//.
 }
 
 void BinarySearchTree::inorder(tree_node* p)
@@ -203,7 +203,7 @@ void BinarySearchTree::inorder(tree_node* p)
 	{
 		if (p->left) inorder(p->left);
 		cout << " " << p->data << " ";
-		if (p->right) inorder(p->right);;
+		if (p->right) inorder(p->right);//.
 	}
 	else return;
 }
@@ -218,7 +218,7 @@ void BinarySearchTree::preorder(tree_node* p)
 	if (p != NULL)
 	{
 		cout << " " << p->data << " ";
-		if (p->left) {} preorder(p->left);
+		if (p->left)preorder(p->left);//.
 		if (p->right) preorder(p->right);
 	}
 	else return;
@@ -231,7 +231,7 @@ void BinarySearchTree::print_postorder()
 
 void BinarySearchTree::postorder(tree_node* p)
 {
-	if (p = NULL)
+	if (p != NULL)//.
 	{
 		if (p->left) postorder(p->left);
 		if (p->right) postorder(p->right);
@@ -280,7 +280,7 @@ int main()
 			break;
 		case 5: cout << " Enter data to be deleted : ";
 			cin >> tmp1;
-			b.remove(ch);
+			b.remove(tmp1);//.
 			break;
 		case 6: system("pause");
 			return 0;
